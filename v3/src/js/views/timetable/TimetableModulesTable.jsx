@@ -30,7 +30,6 @@ type Props = {
   horizontalOrientation: boolean,
 };
 
-
 class TimetableModulesTable extends Component<Props> {
   componentWillUnmount() {
     this.cancelModifyModuleColor();
@@ -47,28 +46,13 @@ class TimetableModulesTable extends Component<Props> {
 
     return (
       <div className={classnames(styles.moduleActionColumn)}>
-        <button
-          title={label}
-          aria-label={label}
-          className={classnames(styles.moduleColor, {
-            [`color-${module.colorIndex}`]: !module.hiddenInTimetable,
-            'color-muted': module.hiddenInTimetable,
-          })}
-          onClick={() => {
-            if (this.props.activeModule === module.ModuleCode) {
-              this.props.cancelModifyModuleColor();
-            } else {
-              this.props.modifyModuleColor(module.ModuleCode);
-            }
-          }}
-        />
-        {this.props.activeModule === module.ModuleCode &&
         <ColorPicker
+          label={label}
+          color={module.colorIndex}
           onChooseColor={(colorIndex: ColorIndex) => {
             this.props.selectModuleColor(module.ModuleCode, colorIndex);
           }}
-          onDismiss={this.cancelModifyModuleColor}
-        />}
+        />
       </div>
     );
   }
@@ -86,7 +70,7 @@ class TimetableModulesTable extends Component<Props> {
             title={removeBtnLabel}
             aria-label={removeBtnLabel}
             onClick={() => {
-              if (confirm(`Are you sure you want to remove ${module.ModuleCode}?`)) {
+              if (window.confirm(`Are you sure you want to remove ${module.ModuleCode}?`)) {
                 this.props.onRemoveModule(module.ModuleCode);
               }
             }}
@@ -106,11 +90,11 @@ class TimetableModulesTable extends Component<Props> {
               }
             }}
           >
-            {module.hiddenInTimetable ?
+            {module.hiddenInTimetable ? (
               <Eye className={timetableActionsStyles.actionIcon} />
-              :
+            ) : (
               <EyeOff className={timetableActionsStyles.actionIcon} />
-            }
+            )}
           </button>
         </div>
       </div>
@@ -144,7 +128,10 @@ class TimetableModulesTable extends Component<Props> {
               <div className={classnames(styles.moduleActionColumn, styles.moduleDetailsColumn)}>
                 {this.renderModuleActions(module)}
 
-                <Link to={modulePagePath(module.ModuleCode, module.ModuleTitle)}>
+                <Link
+                  href={modulePagePath(module.ModuleCode, module.ModuleTitle)}
+                  to={modulePagePath(module.ModuleCode, module.ModuleTitle)}
+                >
                   {module.ModuleCode} {module.ModuleTitle}
                 </Link>
 
@@ -170,13 +157,10 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  {
-    selectModuleColor,
-    modifyModuleColor,
-    cancelModifyModuleColor,
-    hideLessonInTimetable,
-    showLessonInTimetable,
-  },
-)(TimetableModulesTable);
+export default connect(mapStateToProps, {
+  selectModuleColor,
+  modifyModuleColor,
+  cancelModifyModuleColor,
+  hideLessonInTimetable,
+  showLessonInTimetable,
+})(TimetableModulesTable);

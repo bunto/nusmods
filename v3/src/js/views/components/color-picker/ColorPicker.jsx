@@ -1,53 +1,75 @@
 // @flow
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
+import classnames from 'classnames';
 import _ from 'lodash';
 
 import type { ColorIndex } from 'types/reducers';
 
 import { NUM_DIFFERENT_COLORS } from 'reducers/theme';
 
-import './color-picker.scss';
-
-const ESCAPE_KEYCODE = 27;
-const EVENT_TYPE = 'keydown';
+import EscapeOutside from '../EscapeOutside';
+import styles from './color-picker.scss';
 
 type Props = {
+  label: string,
+  color: ColorIndex,
   onChooseColor: Function,
-  onDismiss: Function,
+  onDismiss?: Function,
 };
 
-class ColorPicker extends Component<Props> {
-  componentWillMount() {
-    window.addEventListener(EVENT_TYPE, this.handleKeyDown);
+type State = {
+  isOpen: boolean,
+};
+
+/**
+ * ColorPicker presentational component
+ *
+ * For use in places like changing module colors
+ */
+class ColorPicker extends PureComponent<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      isOpen: false,
+    };
   }
 
-  componentWillUnmount() {
-    window.removeEventListener(EVENT_TYPE, this.handleKeyDown);
-  }
+  onClosePicker = () => {
+    this.setState({ isOpen: false });
+  };
 
-  handleKeyDown = (event: KeyboardEvent) => {
-    if (event.key === 'Escape' || event.keyCode === ESCAPE_KEYCODE) {
-      this.props.onDismiss();
-    }
+  onClick = () => {
+    this.setState({ isOpen: !this.state.isOpen });
   };
 
   render() {
     return (
-      <div className="color-picker-container">
-        <div className="color-picker">
-          {_.range(NUM_DIFFERENT_COLORS).map((index: ColorIndex) => {
-            return (
-              <span
-                className={`color-option color-${index}`}
-                key={index}
-                onClick={() => {
-                  this.props.onChooseColor(index);
-                }}
-              />
-            );
-          })}
-        </div>
-      </div>
+      <EscapeOutside onEscapeOutside={this.onClosePicker}>
+        <button
+          title={this.props.label}
+          aria-label={this.props.label}
+          className={classnames(`color-${this.props.color}`, styles.moduleColor)}
+          onClick={this.onClick}
+        />
+        {this.state.isOpen && (
+          <div className={styles.palette}>
+            {_.range(NUM_DIFFERENT_COLORS).map((index: ColorIndex) => {
+              return (
+                // Visually impair won't use this
+                // eslint-disable-next-line jsx-a11y/click-events-have-key-events
+                <span
+                  className={classnames(styles.option, `color-${index}`)}
+                  key={index}
+                  onClick={() => {
+                    this.props.onChooseColor(index);
+                    this.onClosePicker();
+                  }}
+                />
+              );
+            })}
+          </div>
+        )}
+      </EscapeOutside>
     );
   }
 }
