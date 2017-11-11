@@ -1,0 +1,30 @@
+@import '~styles/utils/modules-entry.scss';
+
+$input-height: 2.5em;
+$select-height: 15rem;
+
+.container {
+  position: relative;
+}
+
+.input {
+  height: $input-height;
+}
+
+.selectList {
+  position: absolute;
+  top: $input-height;
+  left: 0;
+  right: 0;
+  z-index: $module-select-z-index;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  width: 100%;
+  max-height: $select-height;
+  overflow-y: auto;
+  background: #fff;
+  border: $input-btn-border-width solid $input-border-color;
+  border-top: 0;
+  -webkit-overflow-scrolling: touch;
+}

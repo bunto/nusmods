@@ -5,6 +5,7 @@ import type { Node } from 'react';
 const ESCAPE_KEYCODE = 27;
 
 type Props = {
+  className?: string,
   onEscapeOutside: Function,
   children: Node,
 };
@@ -52,7 +53,7 @@ class EscapeOutside extends Component<Props> {
   };
 
   render() {
-    return <div ref={this.getContainer}>{this.props.children}</div>;
+    return <div className={this.props.className} ref={this.getContainer}>{this.props.children}</div>;
   }
 }
 
