@@ -5,12 +5,12 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import classnames from 'classnames';
 
-import type { ModuleWithColor, ModuleCode, Semester } from 'types/modules';
+import type { ModuleWithColor, Semester } from 'types/modules';
 import type { ColorIndex } from 'types/reducers';
 
 import ColorPicker from 'views/components/ColorPicker';
 import { Eye, EyeOff, Trash2 } from 'views/components/icons/index';
-import { selectModuleColor, modifyModuleColor, cancelModifyModuleColor } from 'actions/theme';
+import { selectModuleColor } from 'actions/theme';
 import { hideLessonInTimetable, showLessonInTimetable } from 'actions/settings';
 import { getModuleSemExamDate, modulePagePath } from 'utils/modules';
 
@@ -18,10 +18,7 @@ import styles from './TimetableModulesTable.scss';
 import timetableActionsStyles from './TimetableActions.scss';
 
 type Props = {
-  activeModule: ModuleCode,
   selectModuleColor: Function,
-  modifyModuleColor: Function,
-  cancelModifyModuleColor: Function,
   hideLessonInTimetable: Function,
   showLessonInTimetable: Function,
   semester: Semester,
@@ -31,16 +28,6 @@ type Props = {
 };
 
 class TimetableModulesTable extends Component<Props> {
-  componentWillUnmount() {
-    this.cancelModifyModuleColor();
-  }
-
-  cancelModifyModuleColor = () => {
-    if (this.props.activeModule) {
-      this.props.cancelModifyModuleColor();
-    }
-  };
-
   renderColorPicker(module) {
     const label = `Change ${module.ModuleCode} timetable color`;
 
@@ -151,16 +138,8 @@ class TimetableModulesTable extends Component<Props> {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    activeModule: state.app.activeModule,
-  };
-}
-
-export default connect(mapStateToProps, {
+export default connect(null, {
   selectModuleColor,
-  modifyModuleColor,
-  cancelModifyModuleColor,
   hideLessonInTimetable,
   showLessonInTimetable,
 })(TimetableModulesTable);

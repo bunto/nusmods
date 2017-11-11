@@ -14,7 +14,6 @@ type Props = {
   label: string,
   color: ColorIndex,
   onChooseColor: Function,
-  onDismiss?: Function,
 };
 
 type State = {
