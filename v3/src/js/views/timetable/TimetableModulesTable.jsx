@@ -8,7 +8,7 @@ import classnames from 'classnames';
 import type { ModuleWithColor, ModuleCode, Semester } from 'types/modules';
 import type { ColorIndex } from 'types/reducers';
 
-import ColorPicker from 'views/components/color-picker/ColorPicker';
+import ColorPicker from 'views/components/ColorPicker';
 import { Eye, EyeOff, Trash2 } from 'views/components/icons/index';
 import { selectModuleColor, modifyModuleColor, cancelModifyModuleColor } from 'actions/theme';
 import { hideLessonInTimetable, showLessonInTimetable } from 'actions/settings';

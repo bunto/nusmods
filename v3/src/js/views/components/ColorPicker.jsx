@@ -7,8 +7,8 @@ import type { ColorIndex } from 'types/reducers';
 
 import { NUM_DIFFERENT_COLORS } from 'reducers/theme';
 
-import EscapeOutside from '../EscapeOutside';
-import styles from './color-picker.scss';
+import EscapeOutside from './EscapeOutside';
+import styles from './ColorPicker.scss';
 
 type Props = {
   label: string,
