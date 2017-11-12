@@ -14,17 +14,17 @@ $select-height: 15rem;
 .selectList {
   position: absolute;
   top: $input-height;
-  left: 0;
   right: 0;
+  left: 0;
   z-index: $module-select-z-index;
-  margin: 0;
-  padding: 0;
-  list-style: none;
   width: 100%;
   max-height: $select-height;
+  padding: 0;
+  margin: 0;
   overflow-y: auto;
-  background: #fff;
+  list-style: none;
   border: $input-btn-border-width solid $input-border-color;
   border-top: 0;
+  background: #fff;
   -webkit-overflow-scrolling: touch;
 }

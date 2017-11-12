@@ -36,7 +36,7 @@ class EscapeOutside extends Component<Props> {
   onClickOutside = (e: Event) => {
     if (e.type === 'touchend') this.isTouch = true;
     if (e.type === 'click' && this.isTouch) return;
-    if (this.container && !this.container.contains(e.target)) {
+    if (this.container && e.target instanceof HTMLElement && !this.container.contains(e.target)) {
       this.props.onEscapeOutside();
     }
   };
